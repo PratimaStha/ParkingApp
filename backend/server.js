@@ -35,7 +35,7 @@ app.use("/api/slot", bookingRoutes);
 
 // app.use(express.static("/uploads"));
 
-app.get("/payment/:token/:amt/:key", async (req, res) => {
+app.get("/api/payment/:token/:amt/:key", async (req, res) => {
   console.log(`${req.params.token} ${req.params.amt} ${req.params.key}`);
   let data = {
     token: req.params.token,

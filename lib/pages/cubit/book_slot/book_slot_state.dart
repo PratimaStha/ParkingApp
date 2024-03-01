@@ -25,12 +25,14 @@ class BookSlotState extends Equatable {
   final BookSlotResponseModel? bookSlotResponseModel;
   final AddBookSlotResponseModel? addBookSlotResponseModel;
   final BookSlotResponseModel? myBookSlotResponseModel;
+  final String? token;
   const BookSlotState({
     this.status = BookSlotStatus.initial,
     this.message,
     this.bookSlotResponseModel,
     this.addBookSlotResponseModel,
     this.myBookSlotResponseModel,
+    this.token,
   });
 
   @override
@@ -39,7 +41,8 @@ class BookSlotState extends Equatable {
         message,
         bookSlotResponseModel,
         myBookSlotResponseModel,
-        addBookSlotResponseModel
+        addBookSlotResponseModel,
+        token,
       ];
 
   BookSlotState copyWith({
@@ -48,6 +51,7 @@ class BookSlotState extends Equatable {
     BookSlotResponseModel? bookSlotResponseModel,
     BookSlotResponseModel? myBookSlotResponseModel,
     AddBookSlotResponseModel? addBookSlotResponseModel,
+    String? token,
   }) {
     return BookSlotState(
       status: status ?? this.status,
@@ -58,6 +62,7 @@ class BookSlotState extends Equatable {
           myBookSlotResponseModel ?? this.myBookSlotResponseModel,
       addBookSlotResponseModel:
           addBookSlotResponseModel ?? this.addBookSlotResponseModel,
+      token: token ?? this.token,
     );
   }
 }

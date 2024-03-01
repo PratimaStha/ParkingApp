@@ -23,6 +23,7 @@ class BookSlotCubit extends Cubit<BookSlotState> {
     BuildContext context, {
     String? numberPlate,
     double? totalAmt,
+    String? token,
   }) async {
     try {
       emit(state.copyWith(
@@ -57,6 +58,7 @@ class BookSlotCubit extends Cubit<BookSlotState> {
             status: BookSlotStatus.addBookSuccess,
             message: "BookSlot added successfully",
             addBookSlotResponseModel: result,
+            token: token,
           ),
         );
       } else {

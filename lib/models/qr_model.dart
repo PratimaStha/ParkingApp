@@ -7,6 +7,7 @@ class QrModel {
   String? startTime;
   String? endTime;
   String? status;
+  String? token;
   QrModel({
     this.name,
     this.email,
@@ -16,6 +17,7 @@ class QrModel {
     this.startTime,
     this.endTime,
     this.status,
+    this.token,
   });
 
   QrModel.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class QrModel {
     startTime = json['startTime'];
     endTime = json['endTime'];
     status = json['status'];
+    token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class QrModel {
     data['startTime'] = startTime;
     data['endTime'] = endTime;
     data['status'] = status;
+    data['token'] = token;
     return data;
   }
 }

@@ -19,6 +19,12 @@ import 'package:flutter_parking/widgets/custom_text.dart';
 import 'package:flutter_parking/widgets/custom_text_form_field.dart';
 import 'package:flutter_parking/widgets/custom_toast.dart';
 import 'package:intl/intl.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
+
+import 'package:http/http.dart' as http;
+
+import '../core/configs/api_config.dart';
+import '../secure_storage.dart';
 
 class SlotScreen extends StatefulWidget {
   final String? parkingName;
@@ -76,6 +82,7 @@ class _SlotScreenState extends State<SlotScreen> {
                 .addBookSlotResponseModel?.bookings?.parkingSpot?.spotNumber,
             "status":
                 state.addBookSlotResponseModel?.bookings?.parkingSpot?.status,
+            "token": state.token,
           };
 
           QrModel qrModel = QrModel.fromJson(data);
@@ -455,50 +462,68 @@ class _SlotScreenState extends State<SlotScreen> {
                                           msg:
                                               "Checkin date should be before checkout date");
                                     } else {
-                                      BlocProvider.of<BookSlotCubit>(context)
-                                          .bookSlot(
-                                        context,
-                                        numberPlate: numberr.text,
-                                        totalAmt: priceSlotNotifier.value ?? 0,
+                                      KhaltiScope.of(context).pay(
+                                        config: PaymentConfig(
+                                          amount: (priceSlotNotifier.value
+                                                      ?.toInt() ??
+                                                  0) *
+                                              100,
+                                          productIdentity: numberr.text,
+                                          productName: "Parking",
+                                        ),
+                                        preferences: [
+                                          PaymentPreference.khalti,
+                                          PaymentPreference.eBanking,
+                                          PaymentPreference.mobileBanking
+                                        ],
+                                        onSuccess: (su) async {
+                                          consolelog(
+                                              "Payment Data :: ${su.mobile} ${su.amount} ${su.additionalData} ${su.productIdentity} ${su.productName} ${su.token}");
+                                          const successsnackBar = SnackBar(
+                                            content: Text("Payment successful"),
+                                            backgroundColor: Colors.green,
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(successsnackBar);
+
+                                          await http.get(
+                                            Uri.parse(
+                                                "${ApiConfig.baseUrl}/payment/${su.token}/${su.amount}/test_secret_key_5e914211c6ea44d2948e01741b254244"),
+                                            headers: {
+                                              "Content-Type":
+                                                  "application/json",
+                                              "Accept": "application/json",
+                                            },
+                                          ).then((value) {
+                                            consolelog(
+                                                "value :: ${value.body}");
+                                            BlocProvider.of<BookSlotCubit>(
+                                                    context)
+                                                .bookSlot(
+                                              context,
+                                              numberPlate: numberr.text,
+                                              totalAmt:
+                                                  priceSlotNotifier.value ?? 0,
+                                              token: su.token,
+                                            );
+                                          });
+                                        },
+                                        onFailure: (fa) {
+                                          const failedsnackBar = SnackBar(
+                                            content: Text("payment failed"),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(failedsnackBar);
+                                        },
+                                        onCancel: () {
+                                          const cancelsnackBar = SnackBar(
+                                            content: Text("payment cancel"),
+                                            backgroundColor: Colors.red,
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(cancelsnackBar);
+                                        },
                                       );
-                                      //   KhaltiScope.of(context).pay(
-                                      //     config: PaymentConfig(
-                                      //       amount: (selectedSlotNotifier.value ?? 0) * 100,
-                                      //       productIdentity: numberr.text,
-                                      //       productName: "Parking",
-                                      //     ),
-                                      //     preferences: [PaymentPreference.khalti],
-                                      //     onSuccess: (su) {
-                                      //       const successsnackBar = SnackBar(
-                                      //         content: Text("Payment successful"),
-                                      //         backgroundColor: Colors.green,
-                                      //       );
-                                      //       ScaffoldMessenger.of(context)
-                                      //           .showSnackBar(successsnackBar);
-                                      //       Navigator.of(context).push(
-                                      //         MaterialPageRoute(
-                                      //           builder: (context) => QRPage(
-                                      //             data: su.productIdentity,
-                                      //           ),
-                                      //         ),
-                                      //       );
-                                      //     },
-                                      //     onFailure: (fa) {
-                                      //       const failedsnackBar = SnackBar(
-                                      //         content: Text("payment failed"),
-                                      //       );
-                                      //       ScaffoldMessenger.of(context)
-                                      //           .showSnackBar(failedsnackBar);
-                                      //     },
-                                      //     onCancel: () {
-                                      //       const cancelsnackBar = SnackBar(
-                                      //         content: Text("payment cancel"),
-                                      //         backgroundColor: Colors.red,
-                                      //       );
-                                      //       ScaffoldMessenger.of(context)
-                                      //           .showSnackBar(cancelsnackBar);
-                                      //     },
-                                      //   );
                                     }
                                   }
                                 },
