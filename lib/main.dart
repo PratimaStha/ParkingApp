@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_parking/app_bloc_observer.dart';
 import 'package:flutter_parking/pages/auth/forgot_password/components/cubit/forgot_password_cubit.dart';
@@ -22,9 +23,10 @@ import 'widgets/get_swatch_color.dart';
 
 //import 'package:flutter_parking/pages/khalti.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
+  await dotenv.load(fileName: ".env");
   SharedPref.init();
   runApp(const MyApp());
 }
@@ -61,7 +63,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: KhaltiScope(
-          publicKey: "test_public_key_b857754ab7d949aa97ce19b95129a54f",
+          publicKey: "${dotenv.env['KHALTI_LIVE_PUBLIC_KEY']}",
           builder: (context, navigatorkey) {
             return MaterialApp(
               navigatorKey: navigatorkey,

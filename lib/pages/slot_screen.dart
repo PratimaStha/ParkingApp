@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_parking/core/app/dimensions.dart';
 import 'package:flutter_parking/core/app/states.dart';
 import 'package:flutter_parking/core/development/console.dart';
@@ -485,10 +486,13 @@ class _SlotScreenState extends State<SlotScreen> {
                                           );
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(successsnackBar);
-
+                                          CustomDialogs.fullLoadingDialog(
+                                              context: context,
+                                              data:
+                                                  "Payment Verification, Please wait...");
                                           await http.get(
                                             Uri.parse(
-                                                "${ApiConfig.baseUrl}/payment/${su.token}/${su.amount}/test_secret_key_5e914211c6ea44d2948e01741b254244"),
+                                                "${ApiConfig.baseUrl}/payment/${su.token}/${su.amount}/${dotenv.env['KHALTI_LIVE_SECRET_KEY']}"),
                                             headers: {
                                               "Content-Type":
                                                   "application/json",
@@ -497,6 +501,7 @@ class _SlotScreenState extends State<SlotScreen> {
                                           ).then((value) {
                                             consolelog(
                                                 "value :: ${value.body}");
+                                            back(context);
                                             BlocProvider.of<BookSlotCubit>(
                                                     context)
                                                 .bookSlot(
