@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_parking/core/app/dimensions.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_parking/core/app/states.dart';
 import 'package:flutter_parking/core/development/console.dart';
 import 'package:flutter_parking/core/routing/route_navigation.dart';
 import 'package:flutter_parking/models/book_slot_response_model.dart';
+import 'package:flutter_parking/models/payment_response_model.dart';
 import 'package:flutter_parking/models/qr_model.dart';
 import 'package:flutter_parking/pages/cubit/book_slot/book_slot_cubit.dart';
 import 'package:flutter_parking/pages/date_time_picker.dart';
@@ -84,6 +84,12 @@ class _SlotScreenState extends State<SlotScreen> {
             "status":
                 state.addBookSlotResponseModel?.bookings?.parkingSpot?.status,
             "token": state.token,
+            "paymentUserName": state.paymentResponseModel?.success?.user?.name,
+            "paymentMerchantName":
+                state.paymentResponseModel?.success?.merchant?.name,
+            "paymentMerchantEmail":
+                state.paymentResponseModel?.success?.merchant?.email,
+            "paymentType": state.paymentResponseModel?.success?.type?.name,
           };
 
           QrModel qrModel = QrModel.fromJson(data);
@@ -501,6 +507,14 @@ class _SlotScreenState extends State<SlotScreen> {
                                           ).then((value) {
                                             consolelog(
                                                 "value :: ${value.body}");
+                                            PaymentResponseModel
+                                                successPaymentResult =
+                                                paymentResponseModelFromJson(
+                                                    utf8
+                                                        .decode(value.bodyBytes)
+                                                        .toString());
+
+                                            consolelog(successPaymentResult);
                                             back(context);
                                             BlocProvider.of<BookSlotCubit>(
                                                     context)
@@ -510,6 +524,8 @@ class _SlotScreenState extends State<SlotScreen> {
                                               totalAmt:
                                                   priceSlotNotifier.value ?? 0,
                                               token: su.token,
+                                              paymentResponseModel:
+                                                  successPaymentResult,
                                             );
                                           });
                                         },

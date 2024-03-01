@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking/core/app/states.dart';
 import 'package:flutter_parking/models/add_book_response_model.dart';
+import 'package:flutter_parking/models/payment_response_model.dart';
 import 'package:flutter_parking/secure_storage.dart';
 
 import 'package:http/http.dart' as http;
@@ -24,6 +25,7 @@ class BookSlotCubit extends Cubit<BookSlotState> {
     String? numberPlate,
     double? totalAmt,
     String? token,
+    PaymentResponseModel? paymentResponseModel,
   }) async {
     try {
       emit(state.copyWith(
@@ -59,6 +61,7 @@ class BookSlotCubit extends Cubit<BookSlotState> {
             message: "BookSlot added successfully",
             addBookSlotResponseModel: result,
             token: token,
+            paymentResponseModel:paymentResponseModel,
           ),
         );
       } else {
