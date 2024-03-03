@@ -19,7 +19,7 @@ router.delete(
 
 router.patch(
   "/bookings/:bookingId/update-to-reserved",
-  protect,
+  // protect,
   bookingController.updateBookingToReserved
 );
 
