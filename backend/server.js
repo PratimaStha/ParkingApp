@@ -36,7 +36,7 @@ app.use("/api/slot", bookingRoutes);
 // app.use(express.static("/uploads"));
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Welcome to the Parking App.");
 });
 
 app.get("/api/payment/:token/:amt/:key", async (req, res) => {
