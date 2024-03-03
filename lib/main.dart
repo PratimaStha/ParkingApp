@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: KhaltiScope(
-          publicKey: "${dotenv.env['KHALTI_LIVE_PUBLIC_KEY']}",
+          publicKey: "${dotenv.env['KHALTI_TEST_PUBLIC_KEY']}",
           builder: (context, navigatorkey) {
             return MaterialApp(
               navigatorKey: navigatorkey,

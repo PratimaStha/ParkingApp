@@ -83,13 +83,11 @@ class _SlotScreenState extends State<SlotScreen> {
                 .addBookSlotResponseModel?.bookings?.parkingSpot?.spotNumber,
             "status":
                 state.addBookSlotResponseModel?.bookings?.parkingSpot?.status,
-            "token": state.token,
-            "paymentUserName": state.paymentResponseModel?.success?.user?.name,
-            "paymentMerchantName":
-                state.paymentResponseModel?.success?.merchant?.name,
-            "paymentMerchantEmail":
-                state.paymentResponseModel?.success?.merchant?.email,
-            "paymentType": state.paymentResponseModel?.success?.type?.name,
+            "token": state.token ?? "",
+            "paymentUserName":
+                state.paymentResponseModel?.success?.user?.name ?? "",
+            "paymentType":
+                state.paymentResponseModel?.success?.type?.name ?? "",
           };
 
           QrModel qrModel = QrModel.fromJson(data);
@@ -250,7 +248,7 @@ class _SlotScreenState extends State<SlotScreen> {
                           runSpacing: 24,
                           spacing: 36,
                           children: List.generate(
-                            4,
+                            16,
                             (index) {
                               Booking? bookingResult = state
                                   .bookSlotResponseModel?.bookings
@@ -498,7 +496,7 @@ class _SlotScreenState extends State<SlotScreen> {
                                                   "Payment Verification, Please wait...");
                                           await http.get(
                                             Uri.parse(
-                                                "${ApiConfig.baseUrl}/payment/${su.token}/${su.amount}/${dotenv.env['KHALTI_LIVE_SECRET_KEY']}"),
+                                                "${ApiConfig.baseUrl}/payment/${su.token}/${su.amount}/${dotenv.env['KHALTI_TEST_SECRET_KEY']}"),
                                             headers: {
                                               "Content-Type":
                                                   "application/json",
@@ -556,6 +554,7 @@ class _SlotScreenState extends State<SlotScreen> {
                           ),
                         ),
                       ),
+                      vSizedBox2,
                     ],
                   ),
                 ),

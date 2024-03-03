@@ -1,7 +1,6 @@
 class ApiConfig {
-  static const String localhost = "http://192.168.1.74:5000";
-  // static const String devServerUrl =
-  //     'https://octopus-app-2f4az.ondigitalocean.app';
+  static const String localhost = "http://192.168.1.6:5000";
+  static const String devServerUrl = 'https://parkingapp-backend.vercel.app';
   static const String apiUrl = "/api";
   static const String baseUrl = localhost + apiUrl;
 

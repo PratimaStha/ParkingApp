@@ -238,95 +238,95 @@ class _BookingHistoryState extends State<BookingHistory> {
                                           )
                                         : Container(),
                                     hSizedBox1,
-                                    Expanded(
-                                      child: CustomButton.elevatedButton(
-                                        "Reserved",
-                                        state
-                                                    .myBookSlotResponseModel
-                                                    ?.bookings?[index]
-                                                    .parkingSpot
-                                                    ?.status !=
-                                                "reserved"
-                                            ? () {
-                                                if (DateTime.parse(state
-                                                            .myBookSlotResponseModel
-                                                            ?.bookings?[index]
-                                                            .endTime ??
-                                                        "")
-                                                    .isAfter(DateTime.now())) {
-                                                  BlocProvider.of<
-                                                              BookSlotCubit>(
-                                                          context)
-                                                      .updateBookingSlot(
-                                                          context,
-                                                          bookingId: state
-                                                                  .myBookSlotResponseModel
-                                                                  ?.bookings?[
-                                                                      index]
-                                                                  .id ??
-                                                              "");
-                                                } else {
-                                                  warningToast(
-                                                      msg:
-                                                          "This slot cannot be reserved.");
-                                                }
-                                              }
-                                            : () {},
-                                        isDisable: state
-                                                .myBookSlotResponseModel
-                                                ?.bookings?[index]
-                                                .parkingSpot
-                                                ?.status ==
-                                            "reserved",
-                                        color: AppColors.primaryColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        titleColor: Colors.white,
-                                      ),
-                                    ),
-                                    hSizedBox1,
-                                    state
-                                                .myBookSlotResponseModel
-                                                ?.bookings?[index]
-                                                .parkingSpot
-                                                ?.status !=
-                                            "reserved"
-                                        ? Container()
-                                        : Expanded(
-                                            child: CustomButton.elevatedButton(
-                                              "Make Available",
-                                              state
-                                                          .myBookSlotResponseModel
-                                                          ?.bookings?[index]
-                                                          .parkingSpot
-                                                          ?.status ==
-                                                      "reserved"
-                                                  ? () {
-                                                      BlocProvider.of<
-                                                                  BookSlotCubit>(
-                                                              context)
-                                                          .deleteBookSlot(
-                                                              context,
-                                                              bookingId: state
-                                                                      .myBookSlotResponseModel
-                                                                      ?.bookings?[
-                                                                          index]
-                                                                      .id ??
-                                                                  "");
-                                                    }
-                                                  : () {},
-                                              isDisable: state
-                                                      .myBookSlotResponseModel
-                                                      ?.bookings?[index]
-                                                      .parkingSpot
-                                                      ?.status !=
-                                                  "reserved",
-                                              color: AppColors.primaryColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              titleColor: Colors.white,
-                                            ),
-                                          ),
+                                    // Expanded(
+                                    //   child: CustomButton.elevatedButton(
+                                    //     "Reserved",
+                                    //     state
+                                    //                 .myBookSlotResponseModel
+                                    //                 ?.bookings?[index]
+                                    //                 .parkingSpot
+                                    //                 ?.status !=
+                                    //             "reserved"
+                                    //         ? () {
+                                    //             if (DateTime.parse(state
+                                    //                         .myBookSlotResponseModel
+                                    //                         ?.bookings?[index]
+                                    //                         .endTime ??
+                                    //                     "")
+                                    //                 .isAfter(DateTime.now())) {
+                                    //               BlocProvider.of<
+                                    //                           BookSlotCubit>(
+                                    //                       context)
+                                    //                   .updateBookingSlot(
+                                    //                       context,
+                                    //                       bookingId: state
+                                    //                               .myBookSlotResponseModel
+                                    //                               ?.bookings?[
+                                    //                                   index]
+                                    //                               .id ??
+                                    //                           "");
+                                    //             } else {
+                                    //               warningToast(
+                                    //                   msg:
+                                    //                       "This slot cannot be reserved.");
+                                    //             }
+                                    //           }
+                                    //         : () {},
+                                    //     isDisable: state
+                                    //             .myBookSlotResponseModel
+                                    //             ?.bookings?[index]
+                                    //             .parkingSpot
+                                    //             ?.status ==
+                                    //         "reserved",
+                                    //     color: AppColors.primaryColor,
+                                    //     fontSize: 16,
+                                    //     fontWeight: FontWeight.w500,
+                                    //     titleColor: Colors.white,
+                                    //   ),
+                                    // ),
+                                    // hSizedBox1,
+                                    // state
+                                    //             .myBookSlotResponseModel
+                                    //             ?.bookings?[index]
+                                    //             .parkingSpot
+                                    //             ?.status !=
+                                    //         "reserved"
+                                    //     ? Container()
+                                    //     : Expanded(
+                                    //         child: CustomButton.elevatedButton(
+                                    //           "Make Available",
+                                    //           state
+                                    //                       .myBookSlotResponseModel
+                                    //                       ?.bookings?[index]
+                                    //                       .parkingSpot
+                                    //                       ?.status ==
+                                    //                   "reserved"
+                                    //               ? () {
+                                    //                   BlocProvider.of<
+                                    //                               BookSlotCubit>(
+                                    //                           context)
+                                    //                       .deleteBookSlot(
+                                    //                           context,
+                                    //                           bookingId: state
+                                    //                                   .myBookSlotResponseModel
+                                    //                                   ?.bookings?[
+                                    //                                       index]
+                                    //                                   .id ??
+                                    //                               "");
+                                    //                 }
+                                    //               : () {},
+                                    //           isDisable: state
+                                    //                   .myBookSlotResponseModel
+                                    //                   ?.bookings?[index]
+                                    //                   .parkingSpot
+                                    //                   ?.status !=
+                                    //               "reserved",
+                                    //           color: AppColors.primaryColor,
+                                    //           fontSize: 16,
+                                    //           fontWeight: FontWeight.w500,
+                                    //           titleColor: Colors.white,
+                                    //         ),
+                                    //       ),
                                   ],
                                 ),
                                 vSizedBox1,

@@ -9,8 +9,6 @@ class QrModel {
   String? status;
   String? token;
   String? paymentUserName;
-  String? paymentMerchantName;
-  String? paymentMerchantEmail;
   String? paymentType;
   QrModel({
     this.name,
@@ -23,8 +21,6 @@ class QrModel {
     this.status,
     this.token,
     this.paymentUserName,
-    this.paymentMerchantName,
-    this.paymentMerchantEmail,
     this.paymentType,
   });
 
@@ -38,10 +34,8 @@ class QrModel {
     endTime = json['endTime'];
     status = json['status'];
     token = json['token'];
-    paymentUserName = json['paymentUserName'];
-    paymentMerchantName = json['paymentMerchantName'];
-    paymentMerchantEmail = json['paymentMerchantEmail'];
-    paymentType = json['paymentType'];
+    paymentUserName = json['paymentUserName'] ?? "";
+    paymentType = json['paymentType'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -56,8 +50,6 @@ class QrModel {
     data['status'] = status;
     data['token'] = token;
     data['paymentUserName'] = paymentUserName;
-    data['paymentMerchantName'] = paymentMerchantName;
-    data['paymentMerchantEmail'] = paymentMerchantEmail;
     data['paymentType'] = paymentType;
     return data;
   }

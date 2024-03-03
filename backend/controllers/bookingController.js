@@ -11,20 +11,27 @@ const createBooking = async (req, res) => {
     console.log(req.body);
 
     // Check if the parking spot is available for the given time range
-    const isSpotAvailable = await ParkingSpot.findOne({
-      spotNumber: spotId,
-    });
+    const isSpotAvailable = await ParkingSpot.findOneAndUpdate(
+      {
+        spotNumber: spotId,
+      },
+      { $setOnInsert: { spotNumber: spotId, status: "available" } },
+      {
+        upsert: true,
+        new: true,
+      }
+    );
 
     console.log("isSpotAvailable :: " + isSpotAvailable);
 
-    if (isSpotAvailable == null) {
-      await ParkingSpot.create({
-        spotNumber: spotId,
-        status: "available",
-      });
-    }
+    // if (isSpotAvailable === null) {
+    //   await ParkingSpot.create({
+    //     spotNumber: spotId,
+    //     status: "available",
+    //   });
+    // }
 
-    if (isSpotAvailable.status != "available") {
+    if (isSpotAvailable?.status != "available") {
       return res
         .status(400)
         .json({ errMessage: "Parking spot not available for booking." });
