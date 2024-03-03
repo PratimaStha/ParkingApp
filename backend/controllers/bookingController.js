@@ -179,6 +179,49 @@ const updateBookingToAvailable = async (req, res) => {
   }
 };
 
+const updateSlotToAvailable = async (req, res) => {
+  try {
+    const slotNumber = req.params.slotNumber; // Assuming you pass the booking ID as a parameter in the route
+
+    // Check if the slot exists
+    const parkingSpot = await ParkingSpot.findOne({
+      spotNumber: slotNumber,
+    });
+
+    console.log(parkingSpot);
+
+    if (!parkingSpot) {
+      return res
+        .status(404)
+        .json({ errMessage: "Slot with given number not found" });
+    }
+
+    // Check if the booking is currently in the "reserved" state
+    if (parkingSpot?.status !== "reserved") {
+      return res
+        .status(400)
+        .json({ message: "Slot cannot be updated to available." });
+    }
+
+    // Update the status of the associated parking spot to "available"
+    const updatedParkingSpot = await ParkingSpot.findByIdAndUpdate(
+      parkingSpot?.id,
+      {
+        status: "available",
+      }
+    );
+
+    console.log("updated parking spot " + updatedParkingSpot);
+
+    await Booking.findOneAndRemove({ parkingSpot: parkingSpot.id });
+
+    res.status(200).json({ message: "Slot updated to available successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ errMessage: "Internal server error" });
+  }
+};
+
 module.exports = {
   createBooking,
   getAllBookings,
@@ -186,4 +229,5 @@ module.exports = {
   deleteBookingAndUpdateParking,
   updateBookingToReserved,
   updateBookingToAvailable,
+  updateSlotToAvailable,
 };

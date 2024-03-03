@@ -27,5 +27,9 @@ router.patch(
   "/bookings/:bookingId/update-to-available",
   bookingController.updateBookingToAvailable
 );
+router.patch(
+  "/:slotNumber/update-to-available",
+  bookingController.updateSlotToAvailable
+);
 
 module.exports = router;
