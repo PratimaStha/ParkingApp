@@ -2,7 +2,7 @@ class ApiConfig {
   static const String localhost = "http://192.168.1.6:5000";
   static const String devServerUrl = 'https://parkingapp-backend.vercel.app';
   static const String apiUrl = "/api";
-  static const String baseUrl = localhost + apiUrl;
+  static const String baseUrl = devServerUrl + apiUrl;
 
   static const String userUrl = "/user";
   static const registerUrl = "/register";

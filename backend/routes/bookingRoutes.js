@@ -29,13 +29,13 @@ router.patch(
 );
 
 //routes for hardware to reserved and available
-router.patch(
+router.post(
   "/:slotNumber/update-to-reserved",
 
   bookingController.updateSlotToReserved
 );
 
-router.patch(
+router.post(
   "/:slotNumber/update-to-available",
   bookingController.updateSlotToAvailable
 );
